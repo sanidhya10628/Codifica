@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const validatorJs = require('validator.js');
 const bcryptjs = require('bcryptjs');
 const mongoose = require('mongoose');
-
+const axois = require('axios')
 
 // Other Dependencies
 const indexPageRoute = require('./routes/index');
@@ -26,12 +26,12 @@ mongoose.connect('mongodb://localhost:27017/Codifica', { useNewUrlParser: true, 
 
 // Body Parser
 app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
 
 
 app.use('/', indexPageRoute); // for displaying Home Page
 app.use('/', loginPageRoute); // for displaying Login
 app.use('/', signUpPageRoute); // for displaying Sign Up
-
 
 
 //ON PORT
