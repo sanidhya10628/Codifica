@@ -9,8 +9,9 @@ const mongoose = require('mongoose');
 
 
 // Other Dependencies
-// const indexPageRoute = require('./routes/index');
+const indexPageRoute = require('./routes/index');
 const loginPageRoute = require('./routes/login');
+const signUpPageRoute = require('./routes/signup')
 
 // Database connection
 mongoose.connect('mongodb://localhost:27017/Codifica', { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
@@ -27,8 +28,9 @@ mongoose.connect('mongodb://localhost:27017/Codifica', { useNewUrlParser: true, 
 app.use(express.urlencoded({ extended: true }))
 
 
-// app.use('/', indexPageRoute); // for displaying Home Page
+app.use('/', indexPageRoute); // for displaying Home Page
 app.use('/', loginPageRoute); // for displaying Login
+app.use('/', signUpPageRoute); // for displaying Sign Up
 
 
 

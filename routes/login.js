@@ -15,11 +15,16 @@ router.post('/login', async (req, res) => {
 
     try {
         const { email, password } = req.body;
-        const cuurUserLogin = await userModel.findOne({ email });
-        if (!cuurUserLogin) {
+        const currUserLogin = await userModel.findOne({ email });
+        if (!currUserLogin) {
             res.json({ "msg": "Details not found" });
         }
-
+        else {
+            const isValidPassword = await bcrypt.compare(password, currUserLogin.password);
+            if (isValidPassword) {
+                res.json({ "msg": "Login In Successfully!.." })
+            }
+        }
     }
 
     catch (e) {
