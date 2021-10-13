@@ -1,4 +1,4 @@
-const { default: axios } = require('axios');
+const axios = require('axios');
 const bcryptjs = require('bcryptjs');
 const express = require('express');
 const validator = require('validator');
@@ -40,7 +40,7 @@ router.post('/signup', async (req, res) => {
             res.send("hi")
         }
         else {
-            res.json({ "msg": "Something Went Wrong!.." });
+            res.json({ "msg": "Email already exits" });
         }
 
 

@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const express = require('express');
 const router = express.Router();
-
+const bcryptjs = require('bcryptjs');
 const userModel = require('../models/user')
 
 // GET Request
@@ -20,16 +20,21 @@ router.post('/login', async (req, res) => {
             res.json({ "msg": "Details not found" });
         }
         else {
-            const isValidPassword = await bcrypt.compare(password, currUserLogin.password);
+            const isValidPassword = await bcryptjs.compare(password, currUserLogin.password);
             if (isValidPassword) {
                 res.json({ "msg": "Login In Successfully!.." })
+                // Here redirect is to be added 
+                // res.redirect();
+            }
+            else {
+                res.json({ "msg": "Invalid password" });
             }
         }
     }
 
     catch (e) {
 
-        res.send("Error");
+        res.json({ "msg": "Error" })
     }
 
 })
