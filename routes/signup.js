@@ -37,7 +37,8 @@ router.post('/signup', async (req, res) => {
                 codeforcesHandle: codeforcesHandle
             })
             await newUser.save();
-            res.send("hi")
+            const token = await newUser.generateAuthToken();
+            res.send({ newUser, token })
         }
         else {
             res.json({ "msg": "Email already exits" });

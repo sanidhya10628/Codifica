@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const bcryptjs = require('bcryptjs');
 const userModel = require('../models/user')
-
+const auth = require('../middleware/auth')
 // GET Request
 router.get('/login', (req, res) => {
     res.send("Welcome to the login page");
@@ -11,7 +11,7 @@ router.get('/login', (req, res) => {
 
 
 // POST Request
-router.post('/login', async (req, res) => {
+router.post('/login', auth, async (req, res) => {
 
     try {
         const { email, password } = req.body;
@@ -22,7 +22,9 @@ router.post('/login', async (req, res) => {
         else {
             const isValidPassword = await bcryptjs.compare(password, currUserLogin.password);
             if (isValidPassword) {
-                res.json({ "msg": "Login In Successfully!.." })
+                const token = await currUserLogin.generateAuthToken();
+                res.send({ currUserLogin, token })
+                // res.json({ "msg": "Login In Successfully!.." })
                 // Here redirect is to be added 
                 // res.redirect();
             }
@@ -33,7 +35,7 @@ router.post('/login', async (req, res) => {
     }
 
     catch (e) {
-
+        console.log(e)
         res.json({ "msg": "Error" })
     }
 
