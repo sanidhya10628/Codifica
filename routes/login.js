@@ -11,7 +11,7 @@ router.get('/login', (req, res) => {
 
 
 // POST Request
-router.post('/login', auth, async (req, res) => {
+router.post('/login', async (req, res) => {
 
     try {
         const { email, password } = req.body;
@@ -41,6 +41,21 @@ router.post('/login', auth, async (req, res) => {
 
 })
 
+
+// POST Request To Logout
+router.post('/logout', auth, async (req, res) => {
+    try {
+        req.user.tokens = req.user.tokens.filter((token) => {
+            return token.token !== req.token
+        })
+
+        await req.user.save();
+        res.send();
+    }
+    catch (e) {
+        res.status(500).send();
+    }
+})
 
 
 
