@@ -8,7 +8,9 @@ const userModel = require('../models/user')
 
 // GET Request
 router.get('/signup', (req, res) => {
-    res.send("Welcome to the Sign Up page");
+    res.render('signup')
+    // res.send("Welcome to the Sign Up page");
+
 })
 
 // POST Request
@@ -38,7 +40,9 @@ router.post('/signup', async (req, res) => {
             })
             await newUser.save();
             const token = await newUser.generateAuthToken();
-            res.send({ newUser, token })
+            res.cookie("jwt", token);
+            res.redirect('login')
+            //res.send({ newUser, token })
         }
         else {
             res.json({ "msg": "Email already exits" });

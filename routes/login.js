@@ -6,7 +6,8 @@ const userModel = require('../models/user')
 const auth = require('../middleware/auth')
 // GET Request
 router.get('/login', (req, res) => {
-    res.send("Welcome to the login page");
+    res.render('login.ejs')
+    // res.send("Welcome to the login page");
 })
 
 
@@ -23,7 +24,8 @@ router.post('/login', async (req, res) => {
             const isValidPassword = await bcryptjs.compare(password, currUserLogin.password);
             if (isValidPassword) {
                 const token = await currUserLogin.generateAuthToken();
-                res.send({ currUserLogin, token })
+                res.redirect('profile')
+                //res.send({ currUserLogin, token })
                 // res.json({ "msg": "Login In Successfully!.." })
                 // Here redirect is to be added 
                 // res.redirect();

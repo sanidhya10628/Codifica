@@ -6,7 +6,7 @@ const userModel = require('../models/user')
 
 router.get('/profile', auth, async (req, res) => {
 
-    res.send(req.user);
+    res.render('profile');
 })
 
 
