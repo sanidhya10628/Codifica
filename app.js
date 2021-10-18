@@ -6,8 +6,8 @@ const jwt = require('jsonwebtoken');
 const validatorJs = require('validator.js');
 const bcryptjs = require('bcryptjs');
 const mongoose = require('mongoose');
-const axois = require('axios')
-const cookieParser = require('cookie-parser');
+const axios = require('axios')
+
 // Other Dependencies
 const indexPageRoute = require('./routes/index');
 const loginPageRoute = require('./routes/login');
