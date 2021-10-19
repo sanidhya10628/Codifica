@@ -8,52 +8,67 @@ const userModel = require('../models/user')
 
 // GET Request
 router.get('/signup', (req, res) => {
-    res.render('signup')
-    // res.send("Welcome to the Sign Up page");
+
+    res.send("Sign Up page");
 
 })
 
 // POST Request
 router.post('/signup', async (req, res) => {
-    const { email, password, codeforcesHandle } = req.body;
+    try {
+        const { email, password, codeforcesHandle } = req.body;
 
-    // Validators
-    // validator.isEmail(email);
-    const isUserEmail = await userModel.findOne({ email: email })
-    // const handleVerifyURL = `https://codeforces.com/api/user.info?handles=${codeforcesHandle}`;
+        // Validators
+        if (!validator.isEmail(email)) {
+            throw new Error("Invalid Email")
+        }
+
+        const isUserEmail = await userModel.findOne({ email: email })
+        if (isUserEmail) {
+            throw new Error("Email already exist");
+        }
 
 
-    //Password Validation will add later
+        const handleVerifyURL = `https://codeforces.com/api/user.info?handles=${codeforcesHandle}`;
+
+        //Password Validation will add later
 
 
-    // CodeForces Handle Validation
-    // let ishandleValid = await axios.get(handleVerifyURL);
+        // CodeForces Handle Validation
+        let ishandleValid = await axios.get(handleVerifyURL);
 
-    // ishandleValid = JSON.stringify(ishandleValid.data);
-    if (true) {
-        const encryptedPassword = await bcryptjs.hash(password, 12);
-        if (encryptedPassword && !isUserEmail) {
-            const newUser = await new userModel({
-                email: email,
-                password: encryptedPassword,
-                codeforcesHandle: codeforcesHandle
-            })
-            await newUser.save();
-            const token = await newUser.generateAuthToken();
-            res.cookie("jwt", token);
-            res.redirect('login')
-            //res.send({ newUser, token })
+        ishandleValid = JSON.stringify(ishandleValid.data);
+        if (ishandleValid) {
+            const encryptedPassword = await bcryptjs.hash(password, 12);
+            if (encryptedPassword && !isUserEmail) {
+                const newUser = await new userModel({
+                    email: email,
+                    password: encryptedPassword,
+                    codeforcesHandle: codeforcesHandle
+                })
+                await newUser.save();
+                const token = await newUser.generateAuthToken();
+
+                res.redirect('profile')
+                //res.send({ newUser, token })
+            }
+            else {
+                res.json({ "msg": "wait" });
+            }
+
+
         }
         else {
-            res.json({ "msg": "Email already exits" });
+            res.json({ "msg": "Invalid Codeforces Handle" });
         }
 
 
     }
-    else {
-        res.json({ "msg": "Invalid Codeforces Handle" });
-    }
 
+    catch (e) {
+        console.log(e);
+        res.status(400).json({ "msg": "something went wrong" })
+    }
 
 })
 

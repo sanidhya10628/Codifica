@@ -4,9 +4,9 @@ const router = express.Router();
 const auth = require('../middleware/auth')
 const userModel = require('../models/user')
 
-router.get('/profile', auth, async (req, res) => {
+router.get('/profile', async (req, res) => {
 
-    res.render('profile');
+    res.status(201).json(req.user)
 })
 
 

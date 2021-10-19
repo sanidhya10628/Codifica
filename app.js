@@ -28,7 +28,7 @@ mongoose.connect('mongodb://localhost:27017/Codifica', { useNewUrlParser: true, 
 // Body Parser
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
-app.use(cookieParser())
+// app.use(cookieParser())
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
