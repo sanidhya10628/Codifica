@@ -3,7 +3,6 @@ const express = require('express');
 const router = express.Router();
 const bcryptjs = require('bcryptjs');
 const userModel = require('../models/user')
-const auth = require('../middleware/auth')
 // GET Request
 router.get('/login', (req, res) => {
     res.send("Login Page");
@@ -45,7 +44,7 @@ router.post('/login', async (req, res) => {
 
 
 // POST Request To Logout
-router.post('/logout', auth, async (req, res) => {
+router.post('/logout', async (req, res) => {
     try {
         req.user.tokens = req.user.tokens.filter((token) => {
             return token.token !== req.token

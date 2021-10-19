@@ -13,6 +13,8 @@ const indexPageRoute = require('./routes/index');
 const loginPageRoute = require('./routes/login');
 const signUpPageRoute = require('./routes/signup')
 const profilePageRoute = require('./routes/profile')
+const userEditorial = require('./routes/myEditorials')
+
 
 // Database connection
 mongoose.connect('mongodb://localhost:27017/Codifica', { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
@@ -37,7 +39,7 @@ app.use('/', indexPageRoute); // for displaying Home Page
 app.use('/', loginPageRoute); // for displaying Login
 app.use('/', signUpPageRoute); // for displaying Sign Up
 app.use('/', profilePageRoute); // for displaying Profile Up
-
+app.use('/', userEditorial); // for displaying User Editorials
 
 
 

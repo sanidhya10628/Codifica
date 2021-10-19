@@ -6,40 +6,50 @@ const userSchema = moongose.Schema({
     // E-Mail
     email: {
         type: String,
-        required: true
+        trim: true,
+        required: true,
+        unique: true
     },
 
     // Password
     password: {
         type: String,
+        minlength: 6,
         required: true
     },
     codeforcesHandle: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     name: {
         type: String,
+        trim: true,
         required: false
     },
     country: {
         type: String,
+        trim: true,
         required: false
     },
     city: {
         type: String,
+        trim: true,
         required: false
     },
     college: {
         type: String,
+        trim: true,
         required: false
     },
     dob: {
         type: Date,
+
         required: false
     },
     bio: {
         type: String,
+        trim: true,
         required: false
     },
 

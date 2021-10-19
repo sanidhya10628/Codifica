@@ -16,22 +16,33 @@ router.get('/signup', (req, res) => {
 // POST Request
 router.post('/signup', async (req, res) => {
     try {
-        const { email, password, codeforcesHandle } = req.body;
+        let { email, password, codeforcesHandle } = req.body;
 
+        email = validator.trim(email);
+        password = validator.trim(password);
         // Validators
         if (!validator.isEmail(email)) {
             throw new Error("Invalid Email")
         }
 
-        const isUserEmail = await userModel.findOne({ email: email })
+
+        // For Strong Password
+        if (!validator.isStrongPassword(password, {
+            minLength: 6
+        })) {
+            throw new Error("Weak Password")
+        }
+
+        // Avoid Duplicate
+        const isUserEmail = await userModel.findOne({ email, codeforcesHandle })
         if (isUserEmail) {
-            throw new Error("Email already exist");
+            throw new Error("Email or CodeForces Handle already exist");
         }
 
 
         const handleVerifyURL = `https://codeforces.com/api/user.info?handles=${codeforcesHandle}`;
 
-        //Password Validation will add later
+
 
 
         // CodeForces Handle Validation
@@ -41,10 +52,14 @@ router.post('/signup', async (req, res) => {
         if (ishandleValid) {
             const encryptedPassword = await bcryptjs.hash(password, 12);
             if (encryptedPassword && !isUserEmail) {
+
+
                 const newUser = await new userModel({
                     email: email,
                     password: encryptedPassword,
-                    codeforcesHandle: codeforcesHandle
+                    codeforcesHandle: codeforcesHandle,
+
+
                 })
                 await newUser.save();
                 const token = await newUser.generateAuthToken();
@@ -59,14 +74,14 @@ router.post('/signup', async (req, res) => {
 
         }
         else {
-            res.json({ "msg": "Invalid Codeforces Handle" });
+            res.json({ "msg": `User with handle ${codeforcesHandle} not found ` });
         }
 
 
     }
 
     catch (e) {
-        console.log(e);
+        // console.log(e);
         res.status(400).json({ "msg": "something went wrong" })
     }
 
