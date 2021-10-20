@@ -52,7 +52,6 @@ const userSchema = moongose.Schema({
         trim: true,
         required: false
     },
-
     tokens: [{
         token: {
             type: String,
@@ -61,6 +60,14 @@ const userSchema = moongose.Schema({
     }]
 })
 
+// RelationShip Between User and Editorial
+userSchema.virtual('editorials', {
+    ref: 'editorial',
+    localField: '_id',
+    foreignField: 'owner'
+})
+
+// userSchema.statics.findBy
 
 userSchema.methods.generateAuthToken = async function () {
     const user = this;
@@ -74,3 +81,7 @@ userSchema.methods.generateAuthToken = async function () {
 
 const User = moongose.model('User', userSchema);
 module.exports = User;
+
+// Some Points
+
+// 1. Instance ke liye methods use karte hai

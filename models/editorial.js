@@ -2,11 +2,7 @@ const moongose = require('mongoose');
 
 // Schema
 const editorialSchema = moongose.Schema({
-    email: {
-        type: String,
-        required: true
-    },
-    questionLink: {
+    problemLink: {
         type: String,
         required: true
     },
@@ -14,30 +10,36 @@ const editorialSchema = moongose.Schema({
         type: String,
         required: true
     },
-    author: {
+    contestId: {
         type: String,
         required: true
     },
-    tags: {
+    problemTags: [{
         type: String,
         required: true
-    },
-    level: {
+    }],
+    difficultyLevel: {
         type: String,
         required: true,
         enum: ['easy', 'medium', 'hard']
     },
-    code: {
+    editorialCode: {
         type: String,
         required: true
     },
-    codeExplaination: {
+    editorialDesc: {
         type: String,
         required: false
     },
     date: {
-        type: Date,
+        type: String,
         required: true
+    },
+    owner: {
+        type: moongose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+
     }
 })
 

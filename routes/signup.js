@@ -64,7 +64,7 @@ router.post('/signup', async (req, res) => {
                 await newUser.save();
                 const token = await newUser.generateAuthToken();
 
-                res.redirect('profile')
+                res.status(201).json(newUser)
                 //res.send({ newUser, token })
             }
             else {
