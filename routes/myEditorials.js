@@ -20,6 +20,18 @@ router.get('/user/editorials', auth, async (req, res) => {
     }
 })
 
+// To See a particular Editorial
+router.get('/user/editorial/:id', auth, async (req, res) => {
+    try {
+        const { id } = req.params
+        const editorial = await editorialModel.findById({ _id: id });
+        res.status(200).json(editorial);
+    }
+    catch (e) {
+        console.log(e);
+        res.status(400).json({ "msg": "Something Went Wrong. Try again" })
+    }
+})
 
 // Public editorial Page
 router.get('/editorials', async (req, res) => {
