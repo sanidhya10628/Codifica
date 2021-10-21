@@ -5,7 +5,7 @@ const editorialSchema = moongose.Schema({
     problemLink: {
         type: String,
         required: true
-    },
+    },  
     title: {
         type: String,
         required: true
@@ -35,12 +35,12 @@ const editorialSchema = moongose.Schema({
         type: String,
         required: true
     },
-    owner: {
-        type: moongose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
+    // owner: {
+    //     type: moongose.Schema.Types.ObjectId,
+    //     required: true,
+    //     ref: 'User'
 
-    }
+    // }
 })
 
 const editorial = moongose.model('editorial', editorialSchema);

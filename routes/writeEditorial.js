@@ -5,12 +5,16 @@ const userModel = require('../models/user')
 const auth = require('../middleware/auth')
 const editorialModel = require('../models/editorial')
 
-/* Test commit */
+
+/* GET request for editorial */
 router.get('/user/write/editorial', (req, res) => {
     res.send("Write Page");
 })
 
-router.post('/user/write/editorial', auth, async (req, res) => {
+
+
+/* POST request for editorial */
+router.post('/user/write/editorial', /*auth*/ async (req, res) => {
 
     try {
         let { problemLink, name, contestId, problemTags, difficultyLevel, editorialDesc, editorialCode } = req.body;
@@ -32,12 +36,13 @@ router.post('/user/write/editorial', auth, async (req, res) => {
             editorialDesc: editorialDesc,
             editorialCode: editorialCode,
             date: new Date(),
-            owner: req.user.id
+            //owner: '616fb0a95b0cdc1cb19e64d6'//req.user.id
 
         })
 
         await newEditorial.save();
         res.json(newEditorial)
+        console.log('success')
     }
     catch (e) {
         console.log(e)
@@ -46,6 +51,20 @@ router.post('/user/write/editorial', auth, async (req, res) => {
 
 })
 
+
+/* DELETE request for editorial */
+router.delete('/user/write/editorial', async (req, res) => {
+    try {
+        const id = req.body._id
+        const editorial = await editorialModel.findByIdAndDelete(id)
+        console.log('Success')
+        // res.redirect('/')
+    } 
+    catch (error) {
+        res.send('Error in deleting the editorial')
+        console.log(error)
+    }
+})
 
 module.exports = router;
 

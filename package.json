@@ -1,7 +1,7 @@
 {
   "name": "codfica",
   "version": "1.0.0",
-  "description": "",
+  "description": "CODIFICA",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -25,5 +25,13 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.13"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanidhya10628/Codifica.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sanidhya10628/Codifica/issues"
+  },
+  "homepage": "https://github.com/sanidhya10628/Codifica#readme"
 }
