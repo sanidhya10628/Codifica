@@ -48,16 +48,29 @@ router.post('/user/write/editorial', auth, async (req, res) => {
 
 
 /* DELETE request for editorial */
-router.delete('/user/write/editorial', async (req, res) => {
+router.delete('/user/write/editorial', auth, async (req, res) => {
     try {
         const id = req.body._id
         const editorial = await editorialModel.findByIdAndDelete(id) // id required
-        console.log('Success')
-        // res.redirect('/')
+        res.status(200).json({ "msg": "Editorial Deleted Successfully" });
     }
     catch (error) {
-        res.send('Error in deleting the editorial')
         console.log(error)
+        res.send('Error in deleting the editorial')
+    }
+})
+
+
+/* Update Route For Editorial*/
+router.patch('/user/write/editorial', auth, async (req, res) => {
+    try {
+        const { _id, title, editorialDesc, editorialCode } = req.body;
+        const editorial = await editorialModel.findByIdAndUpdate({ _id: _id }, { title: title, editorialDesc: editorialDesc, editorialCode: editorialCode })
+        res.status(200).json(editorial);
+    }
+    catch (e) {
+        console.log(e);
+        res.send("error");
     }
 })
 

@@ -19,9 +19,8 @@ const editorialSchema = moongose.Schema({
         required: true
     }],
     difficultyLevel: {
-        type: String,
-        required: true,
-        enum: ['easy', 'medium', 'hard']
+        type: Number,
+        required: true
     },
     editorialCode: {
         type: String,
@@ -39,7 +38,6 @@ const editorialSchema = moongose.Schema({
         type: moongose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
-
     }
 })
 
