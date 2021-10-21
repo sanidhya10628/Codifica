@@ -5,7 +5,7 @@ const userModel = require('../models/user')
 const auth = require('../middleware/auth')
 const editorialModel = require('../models/editorial')
 
-
+/* Test commit */
 router.get('/user/write/editorial', (req, res) => {
     res.send("Write Page");
 })
