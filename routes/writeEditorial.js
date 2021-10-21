@@ -56,7 +56,7 @@ router.post('/user/write/editorial', /*auth*/ async (req, res) => {
 router.delete('/user/write/editorial', async (req, res) => {
     try {
         const id = req.body._id
-        const editorial = await editorialModel.findByIdAndDelete(id)
+        const editorial = await editorialModel.findByIdAndDelete(id) // id required
         console.log('Success')
         // res.redirect('/')
     } 
