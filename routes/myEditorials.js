@@ -20,6 +20,8 @@ router.get('/user/editorials', auth, async (req, res) => {
     }
 })
 
+
+
 // To See a particular Editorial
 router.get('/user/editorial/:id', auth, async (req, res) => {
     try {
