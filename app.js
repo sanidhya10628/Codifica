@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 // NPM Dependencies
 const express = require('express');
 const app = express();
@@ -37,9 +39,22 @@ app.use('/', writeEditorial); // for Writing Editorials
 
 
 
+/* Mitul Code */
+// cors headers
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    );
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+    next();
+});
+// cors headers
+
 
 //ON PORT
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.log(`On Port ${PORT}`);
 })

@@ -34,6 +34,10 @@ const editorialSchema = moongose.Schema({
         type: String,
         required: true
     },
+    programmingLanguage: {
+        type: String,
+        required: true,
+    },
     owner: {
         type: moongose.Schema.Types.ObjectId,
         required: true,

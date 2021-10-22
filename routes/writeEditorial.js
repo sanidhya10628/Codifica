@@ -13,7 +13,14 @@ router.get('/user/write/editorial', (req, res) => {
 router.post('/user/write/editorial', auth, async (req, res) => {
 
     try {
-        let { problemLink, name, contestId, problemTags, difficultyLevel, editorialDesc, editorialCode } = req.body;
+        let { problemLink,
+            name,
+            contestId,
+            problemTags,
+            difficultyLevel,
+            editorialDesc,
+            editorialCode,
+            programmingLanguage, } = req.body;
 
         //Validations
         // 1. Check Problem Link is valid or not
@@ -31,6 +38,7 @@ router.post('/user/write/editorial', auth, async (req, res) => {
             difficultyLevel: difficultyLevel,
             editorialDesc: editorialDesc,
             editorialCode: editorialCode,
+            programmingLanguage: programmingLanguage,
             date: new Date(),
             owner: req.user.id
 

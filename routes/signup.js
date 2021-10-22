@@ -4,6 +4,9 @@ const express = require('express');
 const validator = require('validator');
 const router = express.Router();
 
+// Email
+const { sendWelcomeEmail } = require('../emails/account')
+
 const userModel = require('../models/user')
 
 // GET Request
@@ -62,6 +65,10 @@ router.post('/signup', async (req, res) => {
 
                 })
                 await newUser.save();
+
+                // Email Send
+                // sendWelcomeEmail(newUser.email, newUser.codeforcesHandle)
+
                 const token = await newUser.generateAuthToken();
 
                 res.status(201).json(newUser)
