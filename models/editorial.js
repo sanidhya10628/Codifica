@@ -45,5 +45,11 @@ const editorialSchema = moongose.Schema({
     }
 })
 
+editorialSchema.virtual('comments', {
+    ref: 'comment',
+    localField: '_id',
+    foreignField: 'editorialId'
+})
+
 const editorial = moongose.model('editorial', editorialSchema);
 module.exports = editorial;

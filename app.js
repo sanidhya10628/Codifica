@@ -4,11 +4,6 @@ require('dotenv').config()
 const express = require('express');
 const app = express();
 const path = require('path');
-const jwt = require('jsonwebtoken');
-const validator = require('validator');
-const bcryptjs = require('bcryptjs');
-const mongoose = require('mongoose');
-const axios = require('axios')
 
 // Other Dependencies
 const indexPageRoute = require('./routes/index');
@@ -17,6 +12,7 @@ const signUpPageRoute = require('./routes/signup')
 const profilePageRoute = require('./routes/profile')
 const userEditorial = require('./routes/myEditorials')
 const writeEditorial = require('./routes/writeEditorial')
+const commentPageRoute = require('./routes/comment')
 
 // Database connection
 require('./db/mongoose')
@@ -36,6 +32,7 @@ app.use('/', signUpPageRoute); // for displaying Sign Up
 app.use('/', profilePageRoute); // for displaying Profile Up
 app.use('/', userEditorial); // for displaying User Editorials
 app.use('/', writeEditorial); // for Writing Editorials
+app.use('/', commentPageRoute); // for Writing Comment for Editorials
 
 
 
@@ -58,26 +55,5 @@ const PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.log(`On Port ${PORT}`);
 })
-
-
-const userModel = require('./models/user')
-const editorialModel = require('./models/editorial')
-
-const f = async () => {
-    try {
-        // const editorial = await editorialModel.findById('616fd5ad367f81da497b7a1d');
-        // await editorial.populate('owner')
-        // console.log(editorial.owner);
-
-        const user = await userModel.find({ email: "sanidhya10628@gmail.com" });
-        await user.populate('editorials')
-        console.log(user.editorials)
-    }
-    catch (e) {
-        console.log(e);
-
-    }
-}
-
 
 

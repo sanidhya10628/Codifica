@@ -4,7 +4,7 @@ const auth = require('../middleware/auth');
 const router = express.Router();
 const userModel = require('../models/user')
 const editorialModel = require('../models/editorial')
-
+const commentModel = require('../models/comment')
 
 // Personal Editorial Page
 router.get('/user/editorials', auth, async (req, res) => {
@@ -27,7 +27,8 @@ router.get('/user/editorial/:id', auth, async (req, res) => {
     try {
         const { id } = req.params
         const editorial = await editorialModel.findById({ _id: id });
-        res.status(200).json(editorial);
+        const comments = await commentModel.find({ editorialId: id })
+        res.status(200).json({ editorial, comments });
     }
     catch (e) {
         console.log(e);

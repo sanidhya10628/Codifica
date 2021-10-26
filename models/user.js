@@ -67,6 +67,13 @@ userSchema.virtual('editorials', {
     foreignField: 'owner'
 })
 
+// RelationShip between User and Comment
+userSchema.virtual('comments', {
+    ref: 'comment',
+    localField: '_id',
+    foreignField: 'userId'
+})
+
 // userSchema.statics.findBy
 
 userSchema.methods.generateAuthToken = async function () {
