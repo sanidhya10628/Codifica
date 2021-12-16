@@ -1,8 +1,8 @@
-// const sendGridAPIKey = process.env.sendGridAPIKey;
-
-
 const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey('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');
+const sendGridAPIKey = process.env.sendGridAPIKey;
+
+
+sgMail.setApiKey(sendGridAPIKey);
 
 
 const sendBirthdayWishEmail = (email, name) => {
