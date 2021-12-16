@@ -9,7 +9,7 @@ const auth = async (req, res, next) => {
 
 
         // for demo purpose
-        const user = await userModel.findOne({ email: "sanidhya1028@gmail.com" });
+        const user = await userModel.findOne({ email: "sanidhya10628@gmail.com" });
         if (!user) {
             throw new Error("User Doest Not Exist");
         }

@@ -25,7 +25,10 @@ router.post('/signup', async (req, res) => {
         password = validator.trim(password);
         // Validators
         if (!validator.isEmail(email)) {
-            throw new Error("Invalid Email")
+            return res.json({
+                status: 'ERROR',
+                msg: "Invalid Email"
+            })
         }
 
 
@@ -33,26 +36,42 @@ router.post('/signup', async (req, res) => {
         if (!validator.isStrongPassword(password, {
             minLength: 6
         })) {
-            throw new Error("Weak Password")
+            return res.json({
+                status: 'ERROR',
+                msg: "Weak Password"
+            })
+
         }
 
         // Avoid Duplicate
         const isUserEmail = await userModel.findOne({ email, codeforcesHandle })
         if (isUserEmail) {
-            throw new Error("Email or CodeForces Handle already exist");
+            return res.json({
+                status: 'ERROR',
+                msg: "Email or CodeForces Handle already exist"
+            })
+
         }
 
 
         const handleVerifyURL = `https://codeforces.com/api/user.info?handles=${codeforcesHandle}`;
+        // console.log(handleVerifyURL);
 
 
-
+        // console.log(handleVerifyURL);
 
         // CodeForces Handle Validation
-        let ishandleValid = await axios.get(handleVerifyURL);
+        const { data } = await axios.get(handleVerifyURL);
+        const ishandleValid = data
 
-        ishandleValid = JSON.stringify(ishandleValid.data);
-        if (ishandleValid) {
+        if (ishandleValid['status'] === 'FAILED') {
+            return res.json({
+                status: 'ERROR',
+                msg: `User with handle ${codeforcesHandle} not found`
+            })
+        }
+
+        if (ishandleValid['status'] === 'OK') {
             const encryptedPassword = await bcryptjs.hash(password, 12);
             if (encryptedPassword && !isUserEmail) {
 
@@ -71,17 +90,29 @@ router.post('/signup', async (req, res) => {
 
                 const token = await newUser.generateAuthToken();
 
-                res.status(201).json(newUser)
+                res.status(201).json({
+                    status: 'OK',
+                    newUser,
+                    token
+                })
                 //res.send({ newUser, token })
             }
             else {
-                res.json({ "msg": "wait" });
+                return res.json({
+                    status: 'ERROR',
+                    msg: "Something Went Wrong. Please try again"
+                })
+
             }
 
 
         }
         else {
-            res.json({ "msg": `User with handle ${codeforcesHandle} not found ` });
+            return res.json({
+                status: 'ERROR',
+                msg: `User with handle ${codeforcesHandle} not found `
+            })
+
         }
 
 
@@ -89,7 +120,7 @@ router.post('/signup', async (req, res) => {
 
     catch (e) {
         // console.log(e);
-        res.status(400).json({ "msg": "something went wrong" })
+
     }
 
 })

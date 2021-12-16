@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.send('Welcome to the server');
+    res.status(200).json({
+        status: 'OK',
+        msg: 'Welcome to the Server'
+    })
 })
 
 

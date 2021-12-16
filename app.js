@@ -4,6 +4,7 @@ require('dotenv').config()
 const express = require('express');
 const app = express();
 const path = require('path');
+const cors = require('cors')
 
 // Other Dependencies
 const indexPageRoute = require('./routes/index');
@@ -19,6 +20,7 @@ require('./db/mongoose')
 
 
 // Body Parser
+app.use(cors())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json());
 // app.use(cookieParser())
@@ -38,15 +40,15 @@ app.use('/', commentPageRoute); // for Writing Comment for Editorials
 
 /* Mitul Code */
 // cors headers
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-    );
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
-    next();
-});
+// app.use((req, res, next) => {
+//     res.setHeader("Access-Control-Allow-Origin", "*");
+//     res.setHeader(
+//         "Access-Control-Allow-Headers",
+//         "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+//     );
+//     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+//     next();
+// });
 // cors headers
 
 

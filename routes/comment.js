@@ -5,18 +5,26 @@ const userModel = require('../models/user')
 const editorialModel = require('../models/editorial')
 const commentModel = require('../models/comment')
 
-router.get('/user/editorial/:id/comment', auth, async (req, res) => {
-    const editorialId = req.params.id;
-    const { comment } = req.body;
-    const newComment = await commentModel({
-        editorialId: editorialId,
-        userId: req.user.id,
-        comment: comment
-    })
+router.post('/user/editorial/:id/comment', auth, async (req, res) => {
+    try {
+        const editorialId = req.params.id;
+        const { comment } = req.body;
+        const newComment = await commentModel({
+            editorialId: editorialId,
+            userId: req.user.id,
+            comment: comment
+        })
 
-    await newComment.save()
+        await newComment.save()
+        res.redirect('/');
 
-    res.send('working');
+
+    }
+    catch (e) {
+        console.log(e);
+        res.send("Error occured");
+    }
+
 })
 
 

@@ -1,7 +1,9 @@
+
 const { Router } = require('express');
 const express = require('express');
 const router = express.Router();
 const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken')
 const userModel = require('../models/user')
 // GET Request
 router.get('/login', (req, res) => {
@@ -36,7 +38,7 @@ router.post('/login', async (req, res) => {
     }
 
     catch (e) {
-        console.log(e)
+        // console.log(e)
         res.json({ "msg": "Error" })
     }
 
@@ -58,6 +60,40 @@ router.post('/logout', async (req, res) => {
     }
 })
 
+
+
+// GET Request to Check User is Already loggedIn or Not
+router.get('/isLoggedIn', async (req, res) => {
+    try {
+        const token = req.header('Authorization').replace('Bearer ', '');
+        if (!token) {
+            return res.json({
+                status: 'OK',
+                isLoggedIn: false
+            })
+        }
+        const decoded = jwt.verify(token, process.env.jwtSecretKey);
+        const user = await userModel.findOne({ _id: decoded._id, 'tokens.token': token });
+
+        if (!user) {
+            return res.json({
+                status: 'ERROR',
+                isLoggedIn: false
+            })
+        }
+        // console.log(decoded);
+        return res.json({
+            status: 'OK', isLoggedIn: true, user: {
+                email: user.email,
+                codeforcesHandle: user.codeforcesHandle
+            }
+        })
+
+    } catch (e) {
+        // console.log(e);
+        return res.json({ status: 'ERROR', isLoggedIn: false })
+    }
+})
 
 
 module.exports = router;
