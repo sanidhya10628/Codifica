@@ -19,6 +19,7 @@ router.get('/signup', (req, res) => {
 // POST Request
 router.post('/signup', async (req, res) => {
     try {
+
         let { email, password, codeforcesHandle } = req.body;
 
         email = validator.trim(email);

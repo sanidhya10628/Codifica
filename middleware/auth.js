@@ -10,14 +10,23 @@ const auth = async (req, res, next) => {
 
         // for demo purpose
         // const user = await userModel.findOne({ email: "sanidhya10628@gmail.com" });
+
         if (!user) {
-            throw new Error("User Doest Not Exist");
+            return res.json({
+                status: 'NOT_AUTHENTICATE',
+                msg: 'User does not exits or token has expired'
+            })
         }
+        req.token = token;
         req.user = user;
         next();
     }
     catch (e) {
-        res.status(401).send("auth main hoon");
+        console.log(e);
+        return res.json({
+            status: 'ERROR',
+            msg: 'Something went wrong. Please try again'
+        })
     }
 }
 

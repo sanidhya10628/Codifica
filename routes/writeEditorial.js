@@ -25,11 +25,27 @@ router.post('/user/write/editorial', auth, async (req, res) => {
         //Validations
         // 1. Check Problem Link is valid or not
         if (!validator.isURL(problemLink)) {
-            throw new Error("Problem Link Is Invalid!");
+            return res.json({
+                status: 'INVALID_DATA',
+                msg: "Problem Link Is Invalid!"
+            })
         }
 
         // 2. Lower Case of difficultyLevel
         difficultyLevel = difficultyLevel.toLowerCase();
+
+        // 3. Trim
+
+        programmingLanguage = validator.trim(programmingLanguage)
+        editorialDesc = validator.trim(editorialDesc)
+        editorialCode = validator.trim(editorialCode)
+        name = validator.trim(name)
+        const updatedProblemTage = problemTags.map((tag) => {
+            return validator.trim(tag)
+        })
+
+        problemTags = updatedProblemTage
+
         const newEditorial = await editorialModel({
             problemLink: problemLink,
             title: name,
@@ -45,11 +61,17 @@ router.post('/user/write/editorial', auth, async (req, res) => {
         })
 
         await newEditorial.save();
-        res.json(newEditorial)
+        res.status(201).json({
+            status: 'OK',
+            msg: 'success'
+        })
     }
     catch (e) {
         console.log(e)
-        res.send("error");
+        res.json({
+            status: 'ERROR',
+            msg: 'Something Went Wrong. Please try again'
+        })
     }
 
 })
