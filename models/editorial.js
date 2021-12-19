@@ -38,10 +38,18 @@ const editorialSchema = moongose.Schema({
         type: String,
         required: true,
     },
+    index: {
+        type: String,
+        required: true
+    },
     owner: {
         type: moongose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
+    },
+    cFHandle: {
+        type: String,
+        required: true
     }
 })
 

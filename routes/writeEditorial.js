@@ -4,7 +4,7 @@ const router = express.Router();
 const userModel = require('../models/user')
 const auth = require('../middleware/auth')
 const editorialModel = require('../models/editorial')
-
+const moment = require('moment')
 
 router.get('/user/write/editorial', (req, res) => {
     res.send("Write Page");
@@ -20,7 +20,8 @@ router.post('/user/write/editorial', auth, async (req, res) => {
             difficultyLevel,
             editorialDesc,
             editorialCode,
-            programmingLanguage, } = req.body;
+            programmingLanguage,
+            index } = req.body;
 
         //Validations
         // 1. Check Problem Link is valid or not
@@ -32,7 +33,7 @@ router.post('/user/write/editorial', auth, async (req, res) => {
         }
 
         // 2. Lower Case of difficultyLevel
-        difficultyLevel = difficultyLevel.toLowerCase();
+        // difficultyLevel = validator.toLowerCase();
 
         // 3. Trim
 
@@ -46,6 +47,9 @@ router.post('/user/write/editorial', auth, async (req, res) => {
 
         problemTags = updatedProblemTage
 
+        // find the cfHnadle of user
+
+        const date = moment().format('ll')
         const newEditorial = await editorialModel({
             problemLink: problemLink,
             title: name,
@@ -55,9 +59,10 @@ router.post('/user/write/editorial', auth, async (req, res) => {
             editorialDesc: editorialDesc,
             editorialCode: editorialCode,
             programmingLanguage: programmingLanguage,
-            date: new Date(),
-            owner: req.user.id
-
+            date: date,
+            owner: req.user.id,
+            cFHandle: req.user.codeforcesHandle,
+            index: index
         })
 
         await newEditorial.save();

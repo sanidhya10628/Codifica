@@ -11,12 +11,18 @@ router.get('/user/editorials', auth, async (req, res) => {
 
     try {
         const myEditorials = await editorialModel.find({ owner: req.user._id });
-        res.status(200).json(myEditorials);
+        res.status(200).json({
+            status: 'OK',
+            myEditorials
+        })
 
     }
     catch (e) {
         console.log(e);
-        res.send("Something Went Wrong")
+        res.json({
+            status: 'ERROR',
+            msg: "Something Went Wrong"
+        })
     }
 })
 
@@ -40,11 +46,17 @@ router.get('/user/editorial/:id', auth, async (req, res) => {
 router.get('/editorials', async (req, res) => {
     try {
         const allEditorials = await editorialModel.find({})
-        res.status(200).json(allEditorials)
+        res.status(200).json({
+            status: 'OK',
+            allEditorials
+        })
     }
     catch (e) {
         console.log(e);
-        res.status(400).json({ "msg": "Something Went Wrong. Try again" })
+        res.json({
+            status: 'ERROR',
+            msg: "Something Went Wrong. Try again"
+        })
     }
 })
 
