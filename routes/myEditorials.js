@@ -1,8 +1,6 @@
 const express = require('express');
-const validator = require('validator');
 const auth = require('../middleware/auth');
 const router = express.Router();
-const userModel = require('../models/user')
 const editorialModel = require('../models/editorial')
 const commentModel = require('../models/comment')
 
@@ -34,11 +32,18 @@ router.get('/user/editorial/:id', auth, async (req, res) => {
         const { id } = req.params
         const editorial = await editorialModel.findById({ _id: id });
         const comments = await commentModel.find({ editorialId: id })
-        res.status(200).json({ editorial, comments });
+        res.status(200).json({
+            status: 'OK',
+            editorial,
+            comments
+        });
     }
     catch (e) {
         console.log(e);
-        res.status(400).json({ "msg": "Something Went Wrong. Try again" })
+        res.json({
+            status: 'ERROR',
+            msg: "Something Went Wrong. Try again"
+        })
     }
 })
 

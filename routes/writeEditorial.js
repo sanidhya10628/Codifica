@@ -85,13 +85,19 @@ router.post('/user/write/editorial', auth, async (req, res) => {
 /* DELETE request for editorial */
 router.delete('/user/write/editorial', auth, async (req, res) => {
     try {
-        const id = req.body._id
-        const editorial = await editorialModel.findByIdAndDelete(id) // id required
-        res.status(200).json({ "msg": "Editorial Deleted Successfully" });
+        const id = req.body.id
+        const editorial = await editorialModel.findByIdAndDelete({ _id: id }) // id required
+        res.json({
+            status: 'OK',
+            msg: "Editorial Deleted Successfully"
+        });
     }
     catch (error) {
         console.log(error)
-        res.send('Error in deleting the editorial')
+        res.json({
+            status: 'ERROR',
+            msg: "Something Went Wrong"
+        })
     }
 })
 
@@ -99,13 +105,20 @@ router.delete('/user/write/editorial', auth, async (req, res) => {
 /* Update Route For Editorial*/
 router.patch('/user/write/editorial', auth, async (req, res) => {
     try {
-        const { _id, title, editorialDesc, editorialCode } = req.body;
-        const editorial = await editorialModel.findByIdAndUpdate({ _id: _id }, { title: title, editorialDesc: editorialDesc, editorialCode: editorialCode })
-        res.status(200).json(editorial);
+        const { id, editorialDesc, editorialCode } = req.body;
+        const editorial = await editorialModel.findByIdAndUpdate({ _id: id }, { editorialDesc: editorialDesc, editorialCode: editorialCode })
+        res.json({
+            status: 'OK',
+            msg: 'Editorial Updated Sucessfully.',
+            editorial
+        });
     }
     catch (e) {
         console.log(e);
-        res.send("error");
+        res.json({
+            status: 'ERROR',
+            msg: 'Something Went Wrong'
+        })
     }
 })
 

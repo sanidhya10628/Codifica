@@ -14,6 +14,10 @@ const commentSchema = moongose.Schema({
     comment: {
         type: String,
         required: true
+    },
+    date: {
+        type: String,
+        required: true
     }
 })
 
