@@ -27,7 +27,7 @@ router.get('/user/editorials', auth, async (req, res) => {
 
 
 // To See a particular Editorial
-router.get('/user/editorial/:id', auth, async (req, res) => {
+router.get('/user/editorial/:id', async (req, res) => {
     try {
         const { id } = req.params
         const editorial = await editorialModel.findById({ _id: id });
