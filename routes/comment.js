@@ -19,13 +19,14 @@ router.post('/user/editorial/:id/comment', auth, async (req, res) => {
             editorialId: editorialId,
             userId: req.user.id,
             comment: comment,
-            date: date
+            date: date,
+            cFHandle: req.user.codeforcesHandle,
         })
 
         await newComment.save()
         res.status(201).json({
             status: 'OK',
-            msg: 'Successfully Commented'
+            msg: 'Successfully Comment'
         })
 
     }
@@ -38,6 +39,28 @@ router.post('/user/editorial/:id/comment', auth, async (req, res) => {
     }
 
 })
+
+
+router.delete('/delete/comment/:id', auth, async (req, res) => {
+    try {
+
+        const id = req.params.id
+        const comment = await commentModel.findByIdAndDelete({ _id: id }) // id required
+        res.json({
+            status: 'OK',
+            msg: "Comment Deleted Successfully"
+        });
+
+    } catch (e) {
+        console.log(e);
+        res.json({
+            status: 'ERROR',
+            msg: 'Something Went Wrong. Try again'
+        })
+    }
+})
+
+
 
 
 

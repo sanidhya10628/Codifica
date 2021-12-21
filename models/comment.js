@@ -18,6 +18,18 @@ const commentSchema = moongose.Schema({
     date: {
         type: String,
         required: true
+    },
+    likes: [{
+        type: moongose.Schema.Types.ObjectId,
+        required: false
+    }],
+    dislikes: [{
+        type: moongose.Schema.Types.ObjectId,
+        required: false,
+    }],
+    cFHandle: {
+        type: String,
+        required: true
     }
 })
 
