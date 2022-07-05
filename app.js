@@ -14,6 +14,7 @@ const profilePageRoute = require('./routes/profile')
 const userEditorial = require('./routes/myEditorials')
 const writeEditorial = require('./routes/writeEditorial')
 const commentPageRoute = require('./routes/comment')
+const forgotPasswordRoute = require('./routes/forgotPassword')
 
 // Database connection
 require('./db/mongoose')
@@ -35,6 +36,7 @@ app.use('/', profilePageRoute); // for displaying Profile Up
 app.use('/', userEditorial); // for displaying User Editorials
 app.use('/', writeEditorial); // for Writing Editorials
 app.use('/', commentPageRoute); // for Writing Comment for Editorials
+app.use('/', forgotPasswordRoute); // for forgot ans reset password
 
 
 
